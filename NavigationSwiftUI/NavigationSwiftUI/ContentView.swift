@@ -11,6 +11,7 @@ import Kingfisher
 struct ContentView: View {
     
     @State var product: [Product] = []
+    @State var searchText: String = ""
     
     var body: some View {
         NavigationStack {
@@ -20,10 +21,10 @@ struct ContentView: View {
             //ToolbarItem
             //ToolbarItemGroup
             
-            ScrollViewReader { proxy in
+            ScrollViewReader { proxy inx
                 ScrollView {
                     LazyVStack(alignment: .leading) {
-                        ForEach(product) { item in
+                        ForEach(CommonFunction.shared.filteredItems) { item in
                             ProductCell(
                                 productName: item.title,
                                 productPrice: "Rs.\(item.price)",
@@ -60,17 +61,26 @@ struct ContentView: View {
                 
             }
         }
+        .searchable(text: $searchText, prompt: Text("Search Text"))
+        .onChange(of: searchText, initial: false, { old, value in
+            let search = value.trimmingCharacters(in: .whitespaces)
+            CommonFunction.shared.filterValue(search: search)
+        })
+        
         .onAppear(perform: {
             APIHelper.shared.fetchData(url: Constant.product) { result in
                 switch result {
                 case .success(let product):
                     self.product = product
+                    CommonFunction.shared.product = product
                 case .failure(_):
                     print("Error while getting data in View")
                 }
             }
         })
         .padding()
+        
+        
     }
     
 }
