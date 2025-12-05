@@ -13,12 +13,51 @@ struct ContentView: View {
     @State var product: [Product] = []
     
     var body: some View {
-        VStack {
-            //Toolbar
-            List {
-                ForEach(product) { product in
-                    ProductCell(productName: "\(product.title)", productPrice: "Rs.\(product.price)", productImage: product.image)
+        NavigationStack {
+            //ScrollViewReader
+            //ScrollView
+            //Tool bar
+            //ToolbarItem
+            //ToolbarItemGroup
+            
+            ScrollViewReader { proxy in
+                ScrollView {
+                    LazyVStack(alignment: .leading) {
+                        ForEach(product) { item in
+                            ProductCell(
+                                productName: item.title,
+                                productPrice: "Rs.\(item.price)",
+                                productImage: item.image
+                            )
+                            .id(item.id)
+                        }
+                    }
                 }
+                .navigationTitle("Product")
+                .toolbar {
+                    ToolbarItemGroup {
+                        Button {
+                            if let firstID = product.first?.id {
+                                withAnimation {
+                                    proxy.scrollTo(firstID, anchor: .bottom)
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "arrow.up")
+                        }
+                        
+                        Button {
+                            if let lastId = product.last?.id {
+                                withAnimation {
+                                    proxy.scrollTo(lastId, anchor: .top)
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "arrow.down")
+                        }
+                    }
+                }
+                
             }
         }
         .onAppear(perform: {

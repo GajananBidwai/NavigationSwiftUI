@@ -21,7 +21,7 @@ struct ProductCell: View {
             
             VStack(alignment: .leading) {
                 Text(productName)
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.system(size: 18, weight: .bold))
                 Text(productPrice)
             }
             
