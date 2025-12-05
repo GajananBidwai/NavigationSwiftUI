@@ -21,7 +21,7 @@ struct ContentView: View {
             //ToolbarItem
             //ToolbarItemGroup
             
-            ScrollViewReader { proxy inx
+            ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(alignment: .leading) {
                         ForEach(CommonFunction.shared.filteredItems) { item in
@@ -62,17 +62,32 @@ struct ContentView: View {
             }
         }
         .searchable(text: $searchText, prompt: Text("Search Text"))
+        // IT called every time when user type or removed from text from text field
+        .onSubmit(of: .search, {
+            searchTerm()
+        })
         .onChange(of: searchText, initial: false, { old, value in
             let search = value.trimmingCharacters(in: .whitespaces)
             CommonFunction.shared.filterValue(search: search)
+            if value.isEmpty {
+                searchTerm()
+            }
         })
         
+        //Gives Search suggestions from the list
+        .searchSuggestions({
+            ForEach(product) { result in
+                Text("\(result.title)")
+                    .searchCompletion(result.title)
+            }
+        })
         .onAppear(perform: {
             APIHelper.shared.fetchData(url: Constant.product) { result in
                 switch result {
                 case .success(let product):
                     self.product = product
                     CommonFunction.shared.product = product
+                    CommonFunction.shared.filteredItems = product
                 case .failure(_):
                     print("Error while getting data in View")
                 }
@@ -81,6 +96,12 @@ struct ContentView: View {
         .padding()
         
         
+        
+        
+    }
+    func searchTerm(){
+        let search = searchText.trimmingCharacters(in: .whitespaces)
+        CommonFunction.shared.filterValue(search: search)
     }
     
 }
