@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ContentView: View {
     
@@ -13,15 +14,16 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            //Toolbar
+            List {
+                ForEach(product) { product in
+                    ProductCell(productName: "\(product.title)", productPrice: "Rs.\(product.price)", productImage: product.image)
+                }
+            }
         }
         .onAppear(perform: {
-            APIHelper.shared.fetchData(url: "https://fakestoreapi.com/products") { result in
+            APIHelper.shared.fetchData(url: Constant.product) { result in
                 switch result {
-                    
                 case .success(let product):
                     self.product = product
                 case .failure(_):
@@ -31,7 +33,9 @@ struct ContentView: View {
         })
         .padding()
     }
+    
 }
+
 
 #Preview {
     ContentView()
