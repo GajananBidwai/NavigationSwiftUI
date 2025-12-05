@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var product: [Product] = []
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -15,6 +18,17 @@ struct ContentView: View {
                 .foregroundStyle(.tint)
             Text("Hello, world!")
         }
+        .onAppear(perform: {
+            APIHelper.shared.fetchData(url: "https://fakestoreapi.com/products") { result in
+                switch result {
+                    
+                case .success(let product):
+                    self.product = product
+                case .failure(_):
+                    print("Error while getting data in View")
+                }
+            }
+        })
         .padding()
     }
 }
