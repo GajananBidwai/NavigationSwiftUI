@@ -13,6 +13,9 @@ struct ContentView: View {
     @State var product: [Product] = []
     @State var searchText: String = ""
     @StateObject var common = CommonFunction.shared
+    @State var showsheet: Bool = false
+    @State var presentInspecter: Bool = false
+    @State var showPopover: Bool = false
     
     //To dismiss the view
     @Environment(\.dismiss) var dismiss
@@ -28,6 +31,9 @@ struct ContentView: View {
             //Navigation Link
             
             //Zoom Transition .matchedTransition - This property open the view with zoom effect
+            // Model views (sheet) - Opens cover on a view
+            //Inspecter
+            
             
             ScrollViewReader { proxy in
                 ScrollView {
@@ -73,12 +79,36 @@ struct ContentView: View {
                             Image(systemName: "arrow.right")
                         }
 
+                        Button {
+                            showsheet = true
+                            presentInspecter = true
+                            showPopover = true
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+
                         
                     }
                 }
                 
             }
         }
+//        .popover(isPresented: $showPopover, content: {
+//            ProductDetailsView()
+//                
+//        })
+        
+        
+//        .inspector(isPresented: $presentInspecter, content: {
+//            ProductDetailsView()
+//        })
+//        .sheet(isPresented: $showsheet, content: {
+//            ProductDetailsView()
+//                .interactiveDismissDisabled(true)
+//                .presentationBackground(.thinMaterial)
+//          //      .presentationDetents(.medium)
+//        })
+        
 //        .searchable(text: $searchText, prompt: Text("Search Text"))
         // IT called every time when user type or removed from text from text field
 //        .onSubmit(of: .search, {
