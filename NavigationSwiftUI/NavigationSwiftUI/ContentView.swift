@@ -16,6 +16,7 @@ struct ContentView: View {
     @State var showsheet: Bool = false
     @State var presentInspecter: Bool = false
     @State var showPopover: Bool = false
+    @State var openDialogue: Bool = false
     
     //To dismiss the view
     @Environment(\.dismiss) var dismiss
@@ -33,7 +34,8 @@ struct ContentView: View {
             //Zoom Transition .matchedTransition - This property open the view with zoom effect
             // Model views (sheet) - Opens cover on a view
             //Inspecter
-            
+            //Cpnfirmation dialogue
+            //Tip Views
             
             ScrollViewReader { proxy in
                 ScrollView {
@@ -83,6 +85,7 @@ struct ContentView: View {
                             showsheet = true
                             presentInspecter = true
                             showPopover = true
+                            openDialogue = true
                         } label: {
                             Image(systemName: "plus")
                         }
@@ -93,6 +96,19 @@ struct ContentView: View {
                 
             }
         }
+//        .confirmationDialog("Email", isPresented: $openDialogue, actions: {
+//            Button("Cancel", role: .cancel) {
+//
+//            }
+//            Button("Move to inbox", role: .destructive) {
+//                
+//            }
+//            
+//            
+//        }, message: {
+//            Text("Are you sure you want to confirm this action?")
+//        })
+//        
 //        .popover(isPresented: $showPopover, content: {
 //            ProductDetailsView()
 //                
