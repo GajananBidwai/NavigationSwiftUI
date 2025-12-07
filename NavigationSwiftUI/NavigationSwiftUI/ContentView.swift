@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import TipKit
 
 struct ContentView: View {
     
@@ -17,6 +18,7 @@ struct ContentView: View {
     @State var presentInspecter: Bool = false
     @State var showPopover: Bool = false
     @State var openDialogue: Bool = false
+    var tipButton = TipView()
     
     //To dismiss the view
     @Environment(\.dismiss) var dismiss
@@ -95,7 +97,16 @@ struct ContentView: View {
                 }
                 
             }
+            
         }
+        
+        .task({
+            try? Tips.configure([
+                .displayFrequency(.immediate)
+            ])
+        })
+        
+        
 //        .confirmationDialog("Email", isPresented: $openDialogue, actions: {
 //            Button("Cancel", role: .cancel) {
 //
