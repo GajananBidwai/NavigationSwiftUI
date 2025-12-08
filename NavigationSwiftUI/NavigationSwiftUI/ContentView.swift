@@ -44,6 +44,7 @@ struct ContentView: View {
             //Side bar
             //TabSection
             //Adaptibility Size class
+            //GeoMetry Reader
             
             
 //            ScrollViewReader { proxy in
@@ -141,6 +142,18 @@ struct ContentView: View {
 //                    }
 //                }
 //            }
+            
+//            GeoMetry Reader: based on a device can determine the geometry
+            GeometryReader { geometry in
+                let isPortrait = geometry.size.height > geometry.size.width
+                let message = isPortrait ? "Portrait" : "Landscape"
+                
+                HStack {
+                    Text(message)
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+                }
+            }
+            
             
         }
         
