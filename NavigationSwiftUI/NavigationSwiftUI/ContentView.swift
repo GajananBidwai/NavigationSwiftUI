@@ -38,74 +38,100 @@ struct ContentView: View {
             //Inspecter
             //Cpnfirmation dialogue
             //Tip Views
+            //Tab view Tab(role : .search) - magnifying glass at the top
+            //Pages
+            //Side bar
+            //TabSection
             
-            ScrollViewReader { proxy in
-                ScrollView {
-                    LazyVStack(alignment: .leading) {
-                        ForEach(common.filteredItems) { item in
-                            ProductCell(
-                                productName: item.title,
-                                productPrice: "Rs.\(item.price)",
-                                productImage: item.image
-                            )
-                            .id(item.id)
-                            
-                        }
-                    }
-                }
-                .navigationTitle("Product")
-                .toolbar {
-                    ToolbarItemGroup {
-                        Button {
-                            if let firstID = product.first?.id {
-                                withAnimation {
-                                    proxy.scrollTo(firstID, anchor: .bottom)
-                                }
-                            }
-                        } label: {
-                            Image(systemName: "arrow.up")
-                        }
+            
+//            ScrollViewReader { proxy in
+//                ScrollView {
+//                    LazyVStack(alignment: .leading) {
+//                        ForEach(common.filteredItems) { item in
+//                            ProductCell(
+//                                productName: item.title,
+//                                productPrice: "Rs.\(item.price)",
+//                                productImage: item.image
+//                            )
+//                            .id(item.id)
+//                            
+//                        }
+//                    }
+//                }
+//                .navigationTitle("Product")
+//                .toolbar {
+//                    ToolbarItemGroup {
+//                        Button {
+//                            if let firstID = product.first?.id {
+//                                withAnimation {
+//                                    proxy.scrollTo(firstID, anchor: .bottom)
+//                                }
+//                            }
+//                        } label: {
+//                            Image(systemName: "arrow.up")
+//                        }
+//                        
+//                        Button {
+//                            if let lastId = product.last?.id {
+//                                withAnimation {
+//                                    proxy.scrollTo(lastId, anchor: .top)
+//                                }
+//                            }
+//                        } label: {
+//                            Image(systemName: "arrow.down")
+//                        }
+//                        
+//                        
+//                        NavigationLink {
+//                            ProductDetailsView()
+//                        } label: {
+//                            Image(systemName: "arrow.right")
+//                        }
+//
+//                        Button {
+//                            showsheet = true
+//                            presentInspecter = true
+//                            showPopover = true
+//                            openDialogue = true
+//                        } label: {
+//                            Image(systemName: "plus")
+//                        }
+//
+//                        
+//                    }
+//                }
+//                
+//            }
+            
+            TabView {
+                Tab("Home", systemImage: "book.circle") {
+                    Text("Book")
                         
-                        Button {
-                            if let lastId = product.last?.id {
-                                withAnimation {
-                                    proxy.scrollTo(lastId, anchor: .top)
-                                }
-                            }
-                        } label: {
-                            Image(systemName: "arrow.down")
-                        }
-                        
-                        
-                        NavigationLink {
-                            ProductDetailsView()
-                        } label: {
-                            Image(systemName: "arrow.right")
-                        }
-
-                        Button {
-                            showsheet = true
-                            presentInspecter = true
-                            showPopover = true
-                            openDialogue = true
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-
-                        
-                    }
                 }
                 
+                Tab("Setting", systemImage: "gear") {
+                    Text("Settings")
+                }
+                
+                TabSection("More option") {
+                    Tab("Settings", systemImage: "gear") {
+                        Text("Settings")
+                    }
+                }
+
             }
+//            .tabViewStyle(.page)
+//            .tabViewStyle(.page(indexDisplayMode: .always))
+//            side bar can show on the tab device not on the mobile phone
+            .tabViewStyle(.sidebarAdaptable)
             
         }
         
-        .task({
-            try? Tips.configure([
-                .displayFrequency(.immediate)
-            ])
-        })
-        
+//        .task({
+//            try? Tips.configure([
+//                .displayFrequency(.immediate)
+//            ])
+//        })
         
 //        .confirmationDialog("Email", isPresented: $openDialogue, actions: {
 //            Button("Cancel", role: .cancel) {
