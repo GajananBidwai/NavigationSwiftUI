@@ -19,6 +19,7 @@ struct ContentView: View {
     @State var showPopover: Bool = false
     @State var openDialogue: Bool = false
     var tipButton = TipView()
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     //To dismiss the view
     @Environment(\.dismiss) var dismiss
@@ -42,6 +43,7 @@ struct ContentView: View {
             //Pages
             //Side bar
             //TabSection
+            //Adaptibility Size class
             
             
 //            ScrollViewReader { proxy in
@@ -103,27 +105,42 @@ struct ContentView: View {
 //                
 //            }
             
-            TabView {
-                Tab("Home", systemImage: "book.circle") {
-                    Text("Book")
-                        
-                }
-                
-                Tab("Setting", systemImage: "gear") {
-                    Text("Settings")
-                }
-                
-                TabSection("More option") {
-                    Tab("Settings", systemImage: "gear") {
-                        Text("Settings")
-                    }
-                }
-
-            }
+//            TabView {
+//                Tab("Home", systemImage: "book.circle") {
+//                    Text("Book")
+//                        
+//                }
+//                
+//                Tab("Setting", systemImage: "gear") {
+//                    Text("Settings")
+//                }
+//                
+//                TabSection("More option") {
+//                    Tab("Settings", systemImage: "gear") {
+//                        Text("Settings")
+//                    }
+//                }
+//
+//            }
 //            .tabViewStyle(.page)
 //            .tabViewStyle(.page(indexDisplayMode: .always))
 //            side bar can show on the tab device not on the mobile phone
-            .tabViewStyle(.sidebarAdaptable)
+//            .tabViewStyle(.sidebarAdaptable)
+            
+            //Size Class
+//            Group {
+//                if horizontalSizeClass == .compact {
+//                    VStack() {
+//                        HeaderView(isCompact: true)
+//                        BodyView()
+//                    }
+//                } else {
+//                    VStack {
+//                        HeaderView(isCompact: false)
+//                        BodyView()
+//                    }
+//                }
+//            }
             
         }
         
@@ -207,6 +224,25 @@ struct ContentView: View {
         CommonFunction.shared.filterValue(search: search)
     }
     
+}
+
+struct HeaderView: View {
+    var isCompact: Bool
+    
+    var body: some View {
+        Text("Food Menu")
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: isCompact ? 150 : .infinity)
+            .background(Color.yellow)
+    }
+}
+
+struct BodyView: View {
+    
+    var body: some View {
+        Text("Content View")
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+            .background(Color.gray)
+    }
 }
 
 
