@@ -46,7 +46,7 @@ struct ContentView: View {
             //TabSection
             //Adaptibility Size class
             //GeoMetry Reader
-            //Preferences using preference key
+            //Preferences using preference key - It is used for passing data UP the view hierarchy (from child → parent),
             
             
 //            ScrollViewReader { proxy in
@@ -277,6 +277,7 @@ struct BodyView: View {
 }
 
 struct BoxPreference: PreferenceKey {
+    // It is used for passing data UP the view hierarchy (from child → parent),
     typealias value = CGSize
     static var defaultValue: CGSize = .zero
     
