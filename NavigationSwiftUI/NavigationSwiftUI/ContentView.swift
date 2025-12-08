@@ -20,6 +20,7 @@ struct ContentView: View {
     @State var openDialogue: Bool = false
     var tipButton = TipView()
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @State var size : CGSize = .zero
     
     //To dismiss the view
     @Environment(\.dismiss) var dismiss
@@ -45,6 +46,7 @@ struct ContentView: View {
             //TabSection
             //Adaptibility Size class
             //GeoMetry Reader
+            //Preferences using preference key
             
             
 //            ScrollViewReader { proxy in
@@ -144,18 +146,34 @@ struct ContentView: View {
 //            }
             
 //            GeoMetry Reader: based on a device can determine the geometry
-            GeometryReader { geometry in
-                let isPortrait = geometry.size.height > geometry.size.width
-                let message = isPortrait ? "Portrait" : "Landscape"
-                
-                HStack {
-                    Text(message)
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
-                }
-            }
+//            GeometryReader { geometry in
+//                let isPortrait = geometry.size.height > geometry.size.width
+//                let message = isPortrait ? "Portrait" : "Landscape"
+//                
+//                HStack {
+//                    Text(message)
+//                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+//                }
+//            }
+            
+//            Preferences
+            
+            Image(.sample)
+                .resizable()
+                .scaledToFit()
+                .background(
+                    GeometryReader(content: { geometry in
+                        Color.clear
+                            .preference(key: BoxPreference.self, value: geometry.size)
+                    })
+                )
+            Text("\(Int(size.width)) x \(Int(size.height))")
             
             
-        }
+        } .padding()
+        .onPreferenceChange(BoxPreference.self, perform: { value in
+            size = value
+        })
         
 //        .task({
 //            try? Tips.configure([
@@ -256,6 +274,16 @@ struct BodyView: View {
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             .background(Color.gray)
     }
+}
+
+struct BoxPreference: PreferenceKey {
+    typealias value = CGSize
+    static var defaultValue: CGSize = .zero
+    
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+    
 }
 
 
